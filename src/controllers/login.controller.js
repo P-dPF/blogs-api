@@ -18,4 +18,6 @@ const loginHandler = (req, res) => {
   res.status(200).json({ token: '' });
 };
 
-module.exports = loginHandler;
+module.exports = {
+  loginHandler,
+};
