@@ -1,6 +1,6 @@
 require('dotenv/config');
 const jwt = require('jsonwebtoken');
-const LoginService = require('../services/login.service');
+const UserService = require('../services/user.service');
 
 const secret = process.env.JWT_SECRET;
 
@@ -12,7 +12,7 @@ const loginHandler = async (req, res, next) => {
     if (!isBodyValid(email, password)) {
       return res.status(400).json({ message: 'Some required fields are missing' });
     }
-    const user = await LoginService.loginHandler(email);
+    const user = await UserService.loginHandler(email);
     if (!user || user.password !== password) {
       return res.status(400).json({ message: 'Invalid fields' });
     }

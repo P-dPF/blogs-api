@@ -5,6 +5,12 @@ const loginHandler = async (email) => {
   return user.dataValues;
 };
 
+const createUSer = async (displayName, email, password, image) => {
+  const newUser = await User.create({ displayName, email, password, image });
+  return newUser.dataValues;
+};
+
 module.exports = {
   loginHandler,
+  createUSer,
 };
