@@ -24,6 +24,7 @@ const UserModel = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
   }, {
+    timestamps: false,
     tableName: 'users',
     underscored: true,
   });

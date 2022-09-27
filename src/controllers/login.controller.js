@@ -1,21 +1,30 @@
+require('dotenv/config');
+const jwt = require('jsonwebtoken');
 const LoginService = require('../services/login.service');
 
-const loginHandler = (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    const err = new Error('Some required fields are missing');
-    err.status = 400;
-    throw err;
-  }
+const secret = process.env.JWT_SECRET;
 
-  const user = LoginService.loginHandler(email, password);
-  if (!user) {
-    const err = new Error('Invalid fields');
-    err.status = 400;
-    throw err;
-  }
+const isBodyValid = (email, password) => email && password;
 
-  res.status(200).json({ token: '' });
+const loginHandler = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!isBodyValid(email, password)) {
+      return res.status(400).json({ message: 'Some required fields are missing' });
+    }
+    const user = await LoginService.loginHandler(email);
+    if (!user || user.password !== password) {
+      return res.status(400).json({ message: 'Invalid fields' });
+    }
+    const jwtConfig = {
+      expiresIn: '7d',
+      algorithm: 'HS256',
+    };
+    const token = jwt.sign({ data: { userId: user.id } }, secret, jwtConfig);
+    res.status(200).json({ token });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {
