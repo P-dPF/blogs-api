@@ -17,9 +17,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      user_id: {
+      userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        field: 'user_id',
         references: {
           model: 'users',
           key: 'id',
@@ -30,14 +31,6 @@ module.exports = {
         type: Sequelize.DATE
       },
       updated: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       },

@@ -9,9 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      display_name: {
+      displayName: {
         allowNull: false,
         type: Sequelize.STRING,
+        field: 'display_name',
       },
       email: {
         allowNull: false,
@@ -25,14 +26,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
 
