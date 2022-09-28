@@ -7,6 +7,15 @@ const getAllUsers = async (req, res) => {
   res.status(200).json(users);
 };
 
+const getUserById = async (req, res, next) => {
+  const { id } = req.params;
+
+  const user = await UserService.getUserById(id);
+  if (!user) next({ status: 404, message: 'User does not exist' });
+
+  res.status(200).json(user);
+};
+
 const createUSer = async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
 
@@ -24,4 +33,5 @@ const createUSer = async (req, res, next) => {
 module.exports = {
   createUSer,
   getAllUsers,
+  getUserById,
 };
