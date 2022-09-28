@@ -21,14 +21,14 @@ const validateToken = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, secret);
-  const user = await UserService.getByUserId(decoded.data.userId);
+  const user = await UserService.getUserById(decoded.data.userId);
 
   if (!user) return next({ status: 404, message: 'User not found' });
 
   req.user = user;
   next();
   } catch (error) {
-    next({ status: 401, message: error.message });
+    next({ status: 401, message: 'Expired or invalid token' });
   }
 };
 
