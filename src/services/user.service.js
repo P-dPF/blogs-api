@@ -5,6 +5,11 @@ const getUserByEmail = async (email) => {
   if (user) return user.dataValues;
 };
 
+const getUserById = async (id) => {
+  const user = await User.findOne({ where: { id } });
+  if (user) return user.dataValues;
+};
+
 const createUser = async (displayName, email, password, image) => {
   const newUser = await User.create({ displayName, email, password, image });
   return newUser.dataValues;
@@ -13,4 +18,5 @@ const createUser = async (displayName, email, password, image) => {
 module.exports = {
   getUserByEmail,
   createUser,
+  getUserById,
 };

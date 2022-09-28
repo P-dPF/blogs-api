@@ -1,6 +1,6 @@
 const UserService = require('../services/user.service');
 const { validateNewUser } = require('../validations/validateInputs');
-const { generateToken } = require('../middlewares/generateToken');
+const { generateToken } = require('../middlewares/auth');
 
 const createUSer = async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
