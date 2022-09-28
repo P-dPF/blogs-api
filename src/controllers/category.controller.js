@@ -1,6 +1,11 @@
 const { CategoryService } = require('../services');
 const { validateNewCategory } = require('../validations/validateInputs');
 
+const getAllCategories = async (req, res) => {
+  const categories = await CategoryService.getAllCategories();
+  res.status(200).json(categories);
+};
+
 const createCategory = async (req, res, next) => {
   const { name } = req.body;
 
@@ -13,4 +18,5 @@ const createCategory = async (req, res, next) => {
 
 module.exports = {
   createCategory,
+  getAllCategories,
 };
