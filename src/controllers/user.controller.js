@@ -2,6 +2,11 @@ const UserService = require('../services/user.service');
 const { validateNewUser } = require('../validations/validateInputs');
 const { generateToken } = require('../middlewares');
 
+const getAllUsers = async (req, res) => {
+  const users = await UserService.getAllUsers();
+  res.status(200).json(users);
+};
+
 const createUSer = async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
 
@@ -18,4 +23,5 @@ const createUSer = async (req, res, next) => {
 
 module.exports = {
   createUSer,
+  getAllUsers,
 };
