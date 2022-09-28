@@ -1,4 +1,4 @@
-const UserService = require('../services/user.service');
+const { UserService } = require('../services');
 const { validateNewUser } = require('../validations/validateInputs');
 const { generateToken } = require('../middlewares');
 
