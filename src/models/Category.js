@@ -1,5 +1,6 @@
 const CategoryModel = (sequelize, DataTypes) => {
-  const Category = sequelize.define('Category', {
+  const Category = sequelize.define('Category',
+  {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -10,7 +11,8 @@ const CategoryModel = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
-  }, {
+  },
+  {
     timestamps: false,
     tableName: 'categories',
     underscored: true,
