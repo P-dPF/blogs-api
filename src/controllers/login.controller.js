@@ -12,7 +12,7 @@ const loginHandler = async (req, res, next) => {
     if (!isBodyValid(email, password)) {
       return res.status(400).json({ message: 'Some required fields are missing' });
     }
-    const user = await UserService.loginHandler(email);
+    const user = await UserService.getUserByEmail(email);
     if (!user || user.password !== password) {
       return res.status(400).json({ message: 'Invalid fields' });
     }
