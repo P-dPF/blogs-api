@@ -2,7 +2,7 @@ const express = require('express');
 require('express-async-errors');
 
 const { errorHandler } = require('./middlewares');
-const { LoginRouter, UserRouter, CategoryRouter } = require('./routers');
+const { LoginRouter, UserRouter, CategoryRouter, PostRouter } = require('./routers');
 
 // ...
 
@@ -13,6 +13,7 @@ app.use(express.json());
 app.use('/login', LoginRouter);
 app.use('/user', UserRouter);
 app.use('/categories', CategoryRouter);
+app.use('/post', PostRouter);
 
 app.use(errorHandler);
 
