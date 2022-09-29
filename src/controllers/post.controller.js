@@ -30,8 +30,19 @@ const updatePostById = async (req, res, next) => {
   res.status(200).json(updatedPost);
 };
 
+const deleteById = async (req, res, next) => {
+  const { id } = req.params;
+
+  const post = await PostService.getPostById(id);
+  if (!post) return next({ status: 404, message: 'Post does not exist' });
+  if (post.userId !== req.user.id) return next({ status: 401, message: 'Unauthorized user' });
+
+  res.sendStatus(204);
+};
+
 module.exports = {
   getAllPosts,
   getPostById,
   updatePostById,
+  deleteById,
 };
