@@ -4,6 +4,8 @@ const PostCategory = (sequelize, DataTypes) => {
     postId: {
       type: DataTypes.INTEGER,
       field: 'post_id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
       references: {
         model: 'blog_posts',
         key: 'id',
@@ -13,6 +15,8 @@ const PostCategory = (sequelize, DataTypes) => {
     categoryId: {
       type: DataTypes.INTEGER,
       field: 'category_id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
       references: {
         model: 'categories',
         key: 'id',

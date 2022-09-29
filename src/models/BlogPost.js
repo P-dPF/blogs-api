@@ -19,6 +19,8 @@ const BlogPostModel = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER,
       field: 'user_id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
       references: {
         model: 'users',
         key: 'id',
