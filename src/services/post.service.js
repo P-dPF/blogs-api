@@ -1,4 +1,4 @@
-const { BlogPost, User, Category } = require('../models');
+const { BlogPost, User, Category, sequelize } = require('../models');
 
 const getAllPosts = async () => {
   const posts = await BlogPost.findAll({
@@ -39,7 +39,25 @@ const getPostById = async (id) => {
   return post;
 };
 
+const updateById = async (id, title, content) => {
+  try {
+    const result = await sequelize.transaction(async (t) => {
+      const updatedPost = await Promise.all(
+        [
+          BlogPost.update({ title }, { where: { id } }, { transaction: t }),
+          BlogPost.update({ content }, { where: { id } }, { transaction: t }),
+        ],
+      );
+      return updatedPost;
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getAllPosts,
   getPostById,
+  updateById,
 };
