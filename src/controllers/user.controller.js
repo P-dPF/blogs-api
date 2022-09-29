@@ -30,8 +30,18 @@ const createUser = async (req, res, next) => {
   res.status(201).json({ token });
 };
 
+const deleteUser = async (req, res, next) => {
+  const { id } = req.params;
+
+  const user = await UserService.getUserById(id);
+  if (user.id !== req.user.id) return next({ status: 401, message: 'Unauthorized user' });
+
+  res.sendStatus(204);
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  deleteUser,
 };
