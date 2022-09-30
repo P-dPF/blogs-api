@@ -30,11 +30,11 @@ const createUser = async (req, res, next) => {
   res.status(201).json({ token });
 };
 
-const deleteUser = async (req, res, next) => {
-  const { id } = req.params;
-
-  const user = await UserService.getUserById(id);
-  if (user.id !== req.user.id) return next({ status: 401, message: 'Unauthorized user' });
+const deleteUser = async (req, res) => {
+  // const { id } = req.params;
+  // NÃO É ESTE ID E SIM O DO TOKEN
+  const { user } = req;
+  await UserService.deleteUser(user.id);
 
   res.sendStatus(204);
 };

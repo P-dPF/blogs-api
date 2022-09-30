@@ -37,6 +37,7 @@ const deleteById = async (req, res, next) => {
   if (!post) return next({ status: 404, message: 'Post does not exist' });
   if (post.userId !== req.user.id) return next({ status: 401, message: 'Unauthorized user' });
 
+  await PostService.deleteById(id);
   res.sendStatus(204);
 };
 
