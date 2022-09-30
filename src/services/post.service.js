@@ -1,4 +1,5 @@
-const { BlogPost, User, Category, sequelize } = require('../models');
+const { Op } = require('sequelize');
+const { BlogPost, User, Category, sequelize, PostCategory } = require('../models');
 
 const getAllPosts = async () => {
   const posts = await BlogPost.findAll({
@@ -61,9 +62,32 @@ const deleteById = async (id) => {
   return deletedPost;
 };
 
+const createPost = async (title, content, categoryIds, userId) => {
+  const result = await sequelize.transaction(async (t) => {
+    const allCategories = await Category.findAll({ where: { id: { [Op.or]: categoryIds } } });
+    if (allCategories.length !== categoryIds.length) {
+      const err = new Error('"categoryIds" not found');
+      err.status = 400;
+      throw err;
+    }
+
+    const newPost = await BlogPost.create({ title, content, userId }, { transaction: t });
+
+    const postCategoryList = categoryIds.map((categoryId) => (
+      { postId: newPost.dataValues.id, categoryId }
+      ));
+
+    await PostCategory.bulkCreate(postCategoryList, { transaction: t });
+
+    return newPost;
+  });
+  return result;
+};
+
 module.exports = {
   getAllPosts,
   getPostById,
   updateById,
   deleteById,
+  createPost,
 };

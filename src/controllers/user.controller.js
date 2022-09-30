@@ -31,8 +31,6 @@ const createUser = async (req, res, next) => {
 };
 
 const deleteUser = async (req, res) => {
-  // const { id } = req.params;
-  // NÃO É ESTE ID E SIM O DO TOKEN
   const { user } = req;
   await UserService.deleteUser(user.id);
 
