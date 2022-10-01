@@ -71,7 +71,9 @@ const createPost = async (title, content, categoryIds, userId) => {
       throw err;
     }
 
-    const newPost = await BlogPost.create({ title, content, userId }, { transaction: t });
+    const newPost = await BlogPost.create({
+      title, content, userId, published: new Date(), updated: new Date(),
+    }, { transaction: t });
 
     const postCategoryList = categoryIds.map((categoryId) => (
       { postId: newPost.dataValues.id, categoryId }

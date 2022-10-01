@@ -23,20 +23,19 @@ const BlogPostModel = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
-    createdAt: {
+    published: {
       allowNull: false,
-      field: 'published',
       type: DataTypes.DATE,
     },
-    updatedAt: {
+    updated: {
       allowNull: false,
-      field: 'updated',
       type: DataTypes.DATE,
     }
   },
   {
     tableName: 'blog_posts',
     underscored: true,
+    timestamps: false,
   });
 
   BlogPost.associate = (models) => {
