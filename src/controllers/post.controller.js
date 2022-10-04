@@ -58,10 +58,19 @@ const createPost = async (req, res, next) => {
   res.status(201).json(newPost);
 };
 
+const searchByQueryTerm = async (req, res) => {
+  const { q } = req.query;
+
+  const searchedPosts = await PostService.searchByQueryTerm(q);
+
+  res.status(200).json(searchedPosts);
+};
+
 module.exports = {
   getAllPosts,
   getPostById,
   updatePostById,
   deleteById,
   createPost,
+  searchByQueryTerm,
 };

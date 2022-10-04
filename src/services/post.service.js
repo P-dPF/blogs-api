@@ -86,10 +86,28 @@ const createPost = async (title, content, categoryIds, userId) => {
   return result;
 };
 
+const searchByQueryTerm = async (queryTerm) => {
+  const result = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${queryTerm}%` } },
+        { content: { [Op.like]: `%${queryTerm}%` } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', through: { attributes: [] } },
+  ],
+  });
+
+  return result;
+};
+
 module.exports = {
   getAllPosts,
   getPostById,
   updateById,
   deleteById,
   createPost,
+  searchByQueryTerm,
 };
