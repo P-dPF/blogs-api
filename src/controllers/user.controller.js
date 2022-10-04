@@ -1,5 +1,6 @@
 const { UserService } = require('../services');
-const { validateNewUser } = require('../validations/validateInputs');
+const validateSchema = require('../validations/validateInputs');
+const { addUserSchema } = require('../validations/schemas');
 const { generateToken } = require('../middlewares');
 
 const getAllUsers = async (req, res) => {
@@ -17,16 +18,16 @@ const getUserById = async (req, res, next) => {
 };
 
 const createUser = async (req, res, next) => {
-  const { displayName, email, password, image } = req.body;
+  const newUser = req.body;
 
-  const isUserInvalid = validateNewUser(displayName, email, password, image);
+  const isUserInvalid = validateSchema(addUserSchema, newUser);
   if (isUserInvalid) return next({ status: 400, message: isUserInvalid.message });
 
-  const doesUserExist = await UserService.getUserByEmail(email);
+  const doesUserExist = await UserService.getUserByEmail(newUser.email);
   if (doesUserExist) return next({ status: 409, message: 'User already registered' });
 
-  const newUser = await UserService.createUser(displayName, email, password, image);
-  const token = generateToken(newUser);
+  const createdUser = await UserService.createUser(newUser);
+  const token = generateToken(createdUser);
   res.status(201).json({ token });
 };
 

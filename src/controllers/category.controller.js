@@ -1,5 +1,6 @@
 const { CategoryService } = require('../services');
-const { validateNewCategory } = require('../validations/validateInputs');
+const validateSchema = require('../validations/validateInputs');
+const { addCategorySchema } = require('../validations/schemas');
 
 const getAllCategories = async (req, res) => {
   const categories = await CategoryService.getAllCategories();
@@ -7,13 +8,13 @@ const getAllCategories = async (req, res) => {
 };
 
 const createCategory = async (req, res, next) => {
-  const { name } = req.body;
+  const newCategory = req.body;
 
-  const isCategoryInvalid = validateNewCategory(name);
+  const isCategoryInvalid = validateSchema(addCategorySchema, newCategory);
   if (isCategoryInvalid) return next({ status: 400, message: isCategoryInvalid.message });
 
-  const newCategory = await CategoryService.createCategory(name);
-  res.status(201).json(newCategory);
+  const createdCategory = await CategoryService.createCategory(newCategory);
+  res.status(201).json(createdCategory);
 };
 
 module.exports = {

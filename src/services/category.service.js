@@ -6,9 +6,9 @@ const getAllCategories = async () => {
   return categories;
 };
 
-const createCategory = async (name) => {
-  const newCategory = await Category.create({ name });
-  return newCategory.dataValues;
+const createCategory = async (newCategory) => {
+  const createdCategory = await Category.create(newCategory);
+  return createdCategory.dataValues;
 };
 
 module.exports = {

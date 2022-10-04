@@ -18,9 +18,9 @@ const getAllUsers = async () => {
   return users;
 };
 
-const createUser = async (displayName, email, password, image) => {
-  const newUser = await User.create({ displayName, email, password, image });
-  return newUser.dataValues;
+const createUser = async (newUser) => {
+  const createdUser = await User.create(newUser);
+  return createdUser.dataValues;
 };
 
 const deleteUser = async (id) => {
