@@ -5,11 +5,10 @@ const { validateToken } = require('../middlewares');
 
 const router = express.Router();
 
-router.post('/', UserController.createUser);
-
+router.post('/', UserController.create);
 router.use(validateToken);
-router.get('/', UserController.getAllUsers);
-router.get('/:id', UserController.getUserById);
-router.delete('/me', UserController.deleteUser);
+router.get('/', UserController.getAll);
+router.get('/:id', UserController.getById);
+router.delete('/me', UserController.deleteById);
 
 module.exports = router;

@@ -1,30 +1,30 @@
 const { PostService } = require('../services');
 
-const getAllPosts = async (req, res) => {
-  const posts = await PostService.getAllPosts();
+const getAll = async (req, res) => {
+  const posts = await PostService.getAll();
   res.status(200).json(posts);
 };
 
-const getPostById = async (req, res, next) => {
+const getById = async (req, res, next) => {
   const { id } = req.params;
 
-  const post = await PostService.getPostById(id);
+  const post = await PostService.getById(id);
   if (!post) return next({ status: 404, message: 'Post does not exist' });
 
   res.status(200).json(post);
 };
 
-const updatePostById = async (req, res, next) => {
+const update = async (req, res, next) => {
   const { id } = req.params;
   const { title, content } = req.body;
 
   if (!title || !content) return next({ status: 400, message: 'Some required fields are missing' });
-  const post = await PostService.getPostById(id);
+  const post = await PostService.getById(id);
   if (post.userId !== req.user.id) return next({ status: 401, message: 'Unauthorized user' });
 
-  await PostService.updateById(id, title, content);
+  await PostService.update(id, title, content);
 
-  const updatedPost = await PostService.getPostById(id);
+  const updatedPost = await PostService.getById(id);
 
   res.status(200).json(updatedPost);
 };
@@ -33,7 +33,7 @@ const deleteById = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const post = await PostService.getPostById(id);
+    const post = await PostService.getById(id);
     if (!post) return next({ status: 404, message: 'Post does not exist' });
     if (post.userId !== req.user.id) return next({ status: 401, message: 'Unauthorized user' });
   
@@ -44,7 +44,7 @@ const deleteById = async (req, res, next) => {
   }
 };
 
-const createPost = async (req, res, next) => {
+const create = async (req, res, next) => {
   const { title, content, categoryIds } = req.body;
   const { user } = req;
 
@@ -53,7 +53,7 @@ const createPost = async (req, res, next) => {
   }
   if (!categoryIds) return next({ status: 400, message: '"categoryIds" not found' });
 
-  const newPost = await PostService.createPost(title, content, categoryIds, user.id);
+  const newPost = await PostService.create(title, content, categoryIds, user.id);
 
   res.status(201).json(newPost);
 };
@@ -67,10 +67,10 @@ const searchByQueryTerm = async (req, res) => {
 };
 
 module.exports = {
-  getAllPosts,
-  getPostById,
-  updatePostById,
+  getAll,
+  getById,
+  update,
   deleteById,
-  createPost,
+  create,
   searchByQueryTerm,
 };

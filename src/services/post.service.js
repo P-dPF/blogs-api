@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 const { BlogPost, User, Category, sequelize, PostCategory } = require('../models');
 
-const getAllPosts = async () => {
+const getAll = async () => {
   const posts = await BlogPost.findAll({
     include: [
       {
@@ -20,7 +20,7 @@ const getAllPosts = async () => {
   return posts;
 };
 
-const getPostById = async (id) => {
+const getById = async (id) => {
   const post = await BlogPost.findOne({
     where: { id },
     include: [
@@ -40,29 +40,7 @@ const getPostById = async (id) => {
   return post;
 };
 
-const updateById = async (id, title, content) => {
-  try {
-    const result = await sequelize.transaction(async (t) => {
-      const updatedPost = await Promise.all(
-        [
-          BlogPost.update({ title }, { where: { id } }, { transaction: t }),
-          BlogPost.update({ content }, { where: { id } }, { transaction: t }),
-        ],
-      );
-      return updatedPost;
-    });
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const deleteById = async (id) => {
-  const deletedPost = await BlogPost.destroy({ where: { id } });
-  return deletedPost;
-};
-
-const createPost = async (title, content, categoryIds, userId) => {
+const create = async (title, content, categoryIds, userId) => {
   const result = await sequelize.transaction(async (t) => {
     const allCategories = await Category.findAll({ where: { id: { [Op.or]: categoryIds } } });
     if (allCategories.length !== categoryIds.length) {
@@ -86,6 +64,28 @@ const createPost = async (title, content, categoryIds, userId) => {
   return result;
 };
 
+const update = async (id, title, content) => {
+  try {
+    const result = await sequelize.transaction(async (t) => {
+      const updatedPost = await Promise.all(
+        [
+          BlogPost.update({ title }, { where: { id } }, { transaction: t }),
+          BlogPost.update({ content }, { where: { id } }, { transaction: t }),
+        ],
+      );
+      return updatedPost;
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteById = async (id) => {
+  const deletedPost = await BlogPost.destroy({ where: { id } });
+  return deletedPost;
+};
+
 const searchByQueryTerm = async (queryTerm) => {
   const result = await BlogPost.findAll({
     where: {
@@ -104,10 +104,10 @@ const searchByQueryTerm = async (queryTerm) => {
 };
 
 module.exports = {
-  getAllPosts,
-  getPostById,
-  updateById,
+  getAll,
+  getById,
+  update,
   deleteById,
-  createPost,
+  create,
   searchByQueryTerm,
 };

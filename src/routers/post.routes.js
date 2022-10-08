@@ -6,11 +6,11 @@ const { validateToken } = require('../middlewares');
 const router = express.Router();
 
 router.use(validateToken);
-router.get('/', PostController.getAllPosts);
+router.get('/', PostController.getAll);
 router.get('/search', (PostController.searchByQueryTerm));
-router.get('/:id', PostController.getPostById);
-router.put('/:id', PostController.updatePostById);
+router.get('/:id', PostController.getById);
+router.put('/:id', PostController.update);
 router.delete('/:id', PostController.deleteById);
-router.post('/', PostController.createPost);
+router.post('/', PostController.create);
 
 module.exports = router;

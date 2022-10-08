@@ -6,32 +6,32 @@ const getUserByEmail = async (email) => {
   return null;
 };
 
-const getUserById = async (id) => {
-  const user = await User.findOne({ where: { id }, attributes: { exclude: ['password'] } });
-  if (user) return user.dataValues;
-  return null;
-};
-
-const getAllUsers = async () => {
+const getAll = async () => {
   const users = await User.findAll({ attributes: { exclude: ['password'] } });
 
   return users;
 };
 
-const createUser = async (newUser) => {
+const getById = async (id) => {
+  const user = await User.findOne({ where: { id }, attributes: { exclude: ['password'] } });
+  if (user) return user.dataValues;
+  return null;
+};
+
+const create = async (newUser) => {
   const createdUser = await User.create(newUser);
   return createdUser.dataValues;
 };
 
-const deleteUser = async (id) => {
+const deleteById = async (id) => {
   const deletedUser = await User.destroy({ where: { id } });
   return deletedUser;
 };
 
 module.exports = {
   getUserByEmail,
-  createUser,
-  getUserById,
-  getAllUsers,
-  deleteUser,
+  create,
+  getById,
+  getAll,
+  deleteById,
 };
