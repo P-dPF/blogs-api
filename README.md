@@ -23,7 +23,7 @@ The Blogs API project is a Restful API which allows an user to interact with all
 ```npm run prestart && npm run seed```
 
 ## Intructions for running the applications locally without Docker
-(expected to node v. 16 or higher and mysql installed locally)
+(expected node v. 16 or higher and mysql installed locally)
 1. Clone the repository  
 ```git clone git@github.com:P-dPF/blogs-api.git```
 2. Navigate into the directory created in the previous step  
